@@ -24,3 +24,8 @@ class ConnectionError(Exception):
         self.status_code = status_code
         self.message = message
         super().__init__(f'status_code: {status_code}, message: {self.message}')
+  
+  
+class NoSuchDataSource(Exception):
+    def __init__(self):
+        super().__init__('No Such data source exists')      

@@ -34,8 +34,8 @@ def get_datasource(bigid: bigid.BigID) -> BigData:
     data: BigData = bigid.make_request(api_path=settings.DATASOUCES)
     return data
 
-def dupliate_datasource(bigid: bigid.BigId) -> BigData:
-    ''' Duplicate a data source already configured 
+def get_supported_datasources(bigid: bigid.BigId) -> BigData:
+    ''' Get a list of the platforms currently supported data sources 
     
     Attributes:
         bigid: BigID instance to use for requests
@@ -45,6 +45,24 @@ def dupliate_datasource(bigid: bigid.BigId) -> BigData:
     
     Raises:
         None
+    
+    '''
+    data: BigData = bigid.make_request(api_path=settings.SUPPORTED_DATASOURCES)
+    return data
+
+def duplicate_datasource(bigid: bigid.BigId, data_source: str) -> BigData:
+    ''' Duplicate a data source already configured 
+    
+    Attributes:
+        bigid: BigID instance to use for requests
+        data_source: The name of the data source to be duplicated
+    
+    Returns:
+        BigData: BigID dataclass
+    
+    Raises:
+        NoSuchDataSource: Where a data source names doesn't exist in the list
+        of confgured data sources
     
     '''
     raise NotImplementedError
