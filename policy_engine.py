@@ -55,3 +55,7 @@ def write_policy(bigid: bigid.BigID, policy: dict[str, str]) -> None:
         PolicyFailedError: Where a policy is not processed and stored in BigID
         
     '''
+    # def setPolicy(self, data):
+#         r = self.s.post(url=self.s.url + "/api/v1/compliance-rules", json=data)
+#         return r.json()
+    raise NotImplementedError

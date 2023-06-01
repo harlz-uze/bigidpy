@@ -1,2 +1,7 @@
 *__*.pyc
 *.csv
+tests/*
+__pycache__/*
+.bigid_new/*
+.vscode
+.DS_STORE
