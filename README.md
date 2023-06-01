@@ -27,7 +27,8 @@ BIGID_INSTANCE  = "<https://my_big_id_instance>"
 API_URL: str = '/api/v1/'
 ```
 
-## Refresh Token Example
+## Authenticating
+### Refresh Token Example
 ``` 
 import bigid
 import policy_engine
@@ -38,13 +39,25 @@ bigId = bigid.BigID(host='<mybigid.com>', port=443, refresh_token='<my refresh t
 # request and access token using your refresh token
 bigId.request_refresh_token()
 
-# dump the policies configure in BigID
-policy_engine.dump_policies()
 
 ```
 
-## User Name and Password Example
+### User Name and Password Example
 ``` 
+import bigid
+import policy_engine
+
+# instantiate a bigid instance
+bigId = bigid.BigID(host='<mybigid.com>', port=443, refresh_token='<my refresh token>')
+
+# request and access token using your user name and password
+bigId.authenticate(user='<user name>', password='<password>')
+
+```
+
+### Dumping Policies
+
+```
 import bigid
 import policy_engine
 
@@ -56,5 +69,7 @@ bigId.authenticate(user='<user name>', password='<password>')
 
 # dump the policies configure in BigID
 policy_engine.dump_policies()
+
+
 
 ```
