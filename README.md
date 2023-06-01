@@ -19,6 +19,7 @@ There are 2 types of authentication available to consumers of the BigID API. 1. 
 ## BigID Class Methods
 ``` request_refresh_token() ``` used to get a session token using and API token provided via Access Management in the BigID UI
 ``` make_request() ``` used to make requests against a BigID instance requires a session token to have been created with request_refresh_token first.
+``` authenticate() ``` used to authenticate against your BigID instance using a user name and password, not supported by BigID cloud
 
 ## Settings
 Settings are configured via the settings.py file. These settings are used throughout the code to methods & classes. At a minimum you need the following set for your own environment
