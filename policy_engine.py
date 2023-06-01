@@ -2,6 +2,9 @@ import bigid
 import requests
 from datetime import datetime
 from data_types import BigData
+from exceptions import PoliciesNotFound
+import json
+import csv
 
 def dump_policies(bigid: bigid.BigID, file_path: str=None) ->None:
     ''' Dump the currently configured Policies from BigID 
@@ -12,21 +15,43 @@ def dump_policies(bigid: bigid.BigID, file_path: str=None) ->None:
         path you are running this program from if not provided 
         
     Returns:
-        Nothing
+        PoliciesNotFound: When no policies are found on the platform
     
     Raises:
-        ConnectionError: If the connection fails to be establised
-        InsufficientPriv: Where your access is not high enough to make the request and 
-        the BigID instance has denied your request
+        None
         '''
     file_obj: str = (
         f'policy_dump_{datetime.strftime(datetime.utcnow(), "%H_%M_%S")}.csv'
     )
-    try:
         
-        data: BigData = bigid.make_request(api_path='/api/v1/compliance-rules')
-        if file_path is None:
-            with open(file_obj, 'w+') as f:
-                f.write(str(data))
-    except (requests.ConnectionError) as err:
-        print(f'Failed to establish a connection to BigID instance: {bigid.url}')
+    data: BigData = bigid.make_request(api_path='/api/v1/compliance-rules/')
+    try:
+        if 'Not Found' in data.data['message']:
+            raise PoliciesNotFound
+    except TypeError:
+        pass
+    if file_path is None:
+        array: list[dict] = data.data
+        headers: list[str] = []
+        for each_item in array:
+            for k, v in each_item.items():
+                if k not in headers:
+                    headers.append(k)
+        with open(file_obj, 'w') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=headers)
+            writer.writeheader()
+            for data in array:
+                writer.writerow(data)
+
+def write_policy(bigid: bigid.BigID, policy: dict[str, str]) -> None:
+    ''' Write a new policy to BigID instance 
+    
+    Attributes:
+        bigid: BigID instance to use for requests
+        policy: A json encoded representation of the policy you want to apply
+        to BigId
+    
+    Raises:
+        PolicyFailedError: Where a policy is not processed and stored in BigID
+        
+    '''

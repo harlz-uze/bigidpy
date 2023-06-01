@@ -34,7 +34,7 @@ def get_datasource(bigid: bigid.BigID) -> BigData:
     data: BigData = bigid.make_request(api_path=settings.DATASOUCES)
     return data
 
-def get_supported_datasources(bigid: bigid.BigId) -> BigData:
+def get_supported_datasources(bigid: bigid.BigID) -> BigData:
     ''' Get a list of the platforms currently supported data sources 
     
     Attributes:
@@ -50,7 +50,7 @@ def get_supported_datasources(bigid: bigid.BigId) -> BigData:
     data: BigData = bigid.make_request(api_path=settings.SUPPORTED_DATASOURCES)
     return data
 
-def duplicate_datasource(bigid: bigid.BigId, data_source: str) -> BigData:
+def duplicate_datasource(bigid: bigid.BigID, data_source: str) -> BigData:
     ''' Duplicate a data source already configured 
     
     Attributes:

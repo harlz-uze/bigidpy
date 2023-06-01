@@ -16,12 +16,41 @@ There are 2 types of authentication available to consumers of the BigID API. 1. 
 ``` request_refresh_token() ``` used to get a session token using and API token provided via Access Management in the BigID UI
 ``` make_request() ``` used to make requests against a BigID instance requires a session token to have been created with request_refresh_token first.
 
-## Connection Example
+## Settings
+Settings are configured via the settings.py file. These settings are used throughout the code to methods & classes. At a minimum you need the following set for your own environment
+```
+BIGID_INSTANCE  = "<https://my_big_id_instance>"
+API_URL: str = '/api/v1/'
+```
+
+## Refresh Token Example
 ``` 
 import bigid
+import policy_engine
 
+# instantiate a bigid instance
 bigId = bigid.BigID(host='<mybigid.com>', port=443, refresh_token='<my refresh token>')
 
-bigId.
+# request and access token using your refresh token
+bigId.request_refresh_token()
+
+# dump the policies configure in BigID
+policy_engine.dump_policies()
+
+```
+
+## User Name and Password Example
+``` 
+import bigid
+import policy_engine
+
+# instantiate a bigid instance
+bigId = bigid.BigID(host='<mybigid.com>', port=443, refresh_token='<my refresh token>')
+
+# request and access token using your refresh token
+bigId.authenticate(user='<user name>', password='<password>')
+
+# dump the policies configure in BigID
+policy_engine.dump_policies()
 
 ```
