@@ -1,5 +1,5 @@
 # BigID Global settings
-BIGID_INSTANCE  = "https://sandbox.bigiddemo.com"
+BIGID_INSTANCE  = "https://<insert_your_big_instance>"
 API_URL: str = '/api/v1/'
 
 # Authentication
