@@ -1,4 +1,8 @@
 # BigIDpy
+
+PLEASE NOTE THIS LIBRARY IS UNDER DEVELOPMENT
+
+
 The BigID py library is intended to be used as the go to interface with your BigID instance regardless of where it is deployed (on-prem, cloud, or both)
 
 ## Pre-requisites - Cloud & On-prem
