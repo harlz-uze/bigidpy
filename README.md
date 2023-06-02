@@ -69,7 +69,35 @@ bigId = bigid.BigID(host='<mybigid.com>', port=443, refresh_token='<my refresh t
 bigId.authenticate(user='<user name>', password='<password>')
 
 # dump the policies configure in BigID
-policy_engine.dump_policies()
+policy_engine.dump_policies(bigid=bigId)
+
+
+
+```
+
+### Adding a Policy
+
+```
+import bigid
+import policy_engine
+from data_types import BigIdPolicy
+
+# instantiate a bigid instance
+bigId = bigid.BigID(host='<mybigid.com>', port=443, refresh_token='<my refresh token>')
+
+# request and access token using your refresh token
+bigId.authenticate(user='<user name>', password='<password>')
+
+# define a policy object you want to save
+bigid_policy=BigIdPolicy(actions=[], complianceRuleCalc={'bigidQuery':    'field="classifier.Australian Bank Account Number near Term ID"', 'maxFindings': '1000'},
+    description='Some description for my policy', is_enabled=True, name='The name of my policy',
+    owner='owner@email', type='catalog', apps=[], 
+    taskSettings={'includeLinkToInventory': True, 'includeObjectsReport': False},
+    category='GDPR')
+
+
+# Create a policy to save the policies configure in BigID
+policy_engine.write_policy(bigid=bigId, bigid_policy=bigid_policy)
 
 
 

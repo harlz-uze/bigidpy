@@ -4,9 +4,10 @@ from datetime import datetime
 from data_types import BigData, BigIdPolicy
 from exceptions import PoliciesNotFound, PolicyWriteError
 import json
+from typing import Optional
 import csv
 
-def dump_policies(bigid: bigid.BigID, file_path: str=None, http_method='get') ->None:
+def dump_policies(bigid: bigid.BigID, file_path: Optional[str]=None, http_method='get') ->None:
     ''' Dump the currently configured Policies from BigID 
     
     Attributes:
