@@ -15,6 +15,7 @@ There are 2 types of authentication available to consumers of the BigID API. 1. 
 - BigID
 -- The main connection class uses for establishing a connection to BigID instances and ongoing communcations channels
 - BigData -- Used as a data store object where data is returned to the clients
+- BigIdPolicy -- Used to store policy values as an object when writing new policies
 
 ## BigID Class Methods
 ``` request_refresh_token() ``` used to get a session token using and API token provided via Access Management in the BigID UI

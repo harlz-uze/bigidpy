@@ -21,6 +21,7 @@ def dump_policies(bigid: bigid.BigID, file_path: Optional[str]=None, http_method
     Raises:
         None
         '''
+   #  TODO: Use the BigIdPolicy object when dumping policies
     file_obj: str = (
         f'policy_dump_{datetime.strftime(datetime.utcnow(), "%H_%M_%S")}.csv'
     )
