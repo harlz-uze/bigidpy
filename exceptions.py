@@ -37,4 +37,9 @@ class NoSuchDataSource(Exception):
 
 class PoliciesNotFound(Exception):
     def __init__(self):
-        super().__init__('No policies found in BigID matching request')   
+        super().__init__('No policies found in BigID matching request')
+        
+class PolicyWriteError(Exception):
+    def __init__(self, message=None):
+        self.message = message
+        super().__init__(f'Failed to write policy: {self.message}')  

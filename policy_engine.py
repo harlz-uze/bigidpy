@@ -1,12 +1,12 @@
 import bigid
 import requests
 from datetime import datetime
-from data_types import BigData
-from exceptions import PoliciesNotFound
+from data_types import BigData, BigIdPolicy
+from exceptions import PoliciesNotFound, PolicyWriteError
 import json
 import csv
 
-def dump_policies(bigid: bigid.BigID, file_path: str=None) ->None:
+def dump_policies(bigid: bigid.BigID, file_path: str=None, http_method='get') ->None:
     ''' Dump the currently configured Policies from BigID 
     
     Attributes:
@@ -24,7 +24,7 @@ def dump_policies(bigid: bigid.BigID, file_path: str=None) ->None:
         f'policy_dump_{datetime.strftime(datetime.utcnow(), "%H_%M_%S")}.csv'
     )
         
-    data: BigData = bigid.make_request(api_path='/api/v1/compliance-rules/')
+    data: BigData = bigid.make_request(api_path='/api/v1/compliance-rules/', http_method=http_method)
     try:
         if 'Not Found' in data.data['message']:
             raise PoliciesNotFound
@@ -43,7 +43,7 @@ def dump_policies(bigid: bigid.BigID, file_path: str=None) ->None:
             for data in array:
                 writer.writerow(data)
 
-def write_policy(bigid: bigid.BigID, policy: dict[str, str]) -> None:
+def write_policy(bigid: bigid.BigID, bigid_policy: BigIdPolicy) -> None:
     ''' Write a new policy to BigID instance 
     
     Attributes:
@@ -52,10 +52,11 @@ def write_policy(bigid: bigid.BigID, policy: dict[str, str]) -> None:
         to BigId
     
     Raises:
-        PolicyFailedError: Where a policy is not processed and stored in BigID
+        PolicyWriteError: Where a policy is not processed and stored in BigID
         
     '''
-    # def setPolicy(self, data):
-#         r = self.s.post(url=self.s.url + "/api/v1/compliance-rules", json=data)
-#         return r.json()
-    raise NotImplementedError
+    data: BigData = bigid.make_request(api_path='/api/v1/compliance-rules/', http_method='post', bigid_policy=bigid_policy)
+    if data.status_code == 200:
+        pass
+    else:
+        raise PolicyWriteError(message=f'Unable to write policy: {data}')
