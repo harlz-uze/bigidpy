@@ -38,7 +38,7 @@ import policy_engine
 # instantiate a bigid instance
 bigId = bigid.BigID(host='<mybigid.com>', port=443, refresh_token='<my refresh token>')
 
-# request and access token using your refresh token
+# request and access token using your refresh token and store a session token in the bigId instance
 bigId.request_refresh_token()
 
 

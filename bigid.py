@@ -17,7 +17,7 @@ class BigID:
     is_connected: bool = False
     refresh_url: str = settings.REFRESH_URL
     user_url: str = settings.USER_URL
-    session_token: str = Optional[None]
+    session_token: Optional[str] = None
     
     def request_refresh_token(self) -> None:
         ''' Make a request to BigID and get a token 
@@ -114,8 +114,8 @@ class BigID:
             try:
                 print('Attempting to connect to: {url}')
                 r = requests.post(url=url, headers=headers, data=json.dumps(bigid_policy.__dict__), verify=self.verify_ssl)
-                data: BigData = BigData(status_code=r.status_code, data=r.json())
-                return data
+                post_data: BigData = BigData(status_code=r.status_code, data=r.json())
+                return post_data
             except exceptions.ConnectionError as err:
                 print(f'Connection Error has occured: {err}')
                 raise exceptions.UnexpectedResponse(status_code=r.status_code, message=r.text)
