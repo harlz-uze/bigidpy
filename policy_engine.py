@@ -58,20 +58,20 @@ def dump_policies(bigid: bigid.BigID, file_path: Optional[str]=None, http_method
                 logger.debug('%s, %s', LOGGER, d.to_json())
                 output_json.append(d.to_json())
             except KeyError as err:
-                # if err == 'apps':
-                #     d: BigIdPolicy = BigIdPolicy(actions=each_policy['actions'], apps=[], complianceRuleCalc=each_policy['complianceRuleCalc'],
-                #         description=each_policy['description'], is_enabled=each_policy['is_enabled'],
-                #         name=each_policy['name'], owner=each_policy['owner'], taskSettings=each_policy['taskSettings'],
-                #         type=each_policy['type'], id=each_policy['id'], category=each_policy['category'])
-                #     output_json.append(d.to_json())
-                # elif err == 'category':
-                #     d: BigIdPolicy = BigIdPolicy(actions=each_policy['actions'], apps=each_policy['apps'], complianceRuleCalc=each_policy['complianceRuleCalc'],
-                #         description=each_policy['description'], is_enabled=each_policy['is_enabled'],
-                #         name=each_policy['name'], owner=each_policy['owner'], taskSettings=each_policy['taskSettings'],
-                #         type=each_policy['type'], id=each_policy['id'], category='')
-                #     output_json.append(d.to_json())
-                # else:
-                logger.info('Unable to write policy to file: %s', err)
+                if err == 'apps':
+                    d: BigIdPolicy = BigIdPolicy(actions=each_policy['actions'], apps=[], complianceRuleCalc=each_policy['complianceRuleCalc'],
+                        description=each_policy['description'], is_enabled=each_policy['is_enabled'],
+                        name=each_policy['name'], owner=each_policy['owner'], taskSettings=each_policy['taskSettings'],
+                        type=each_policy['type'], id=each_policy['id'], category=each_policy['category'])
+                    output_json.append(d.to_json())
+                elif err == 'category':
+                    d: BigIdPolicy = BigIdPolicy(actions=each_policy['actions'], apps=each_policy['apps'], complianceRuleCalc=each_policy['complianceRuleCalc'],
+                        description=each_policy['description'], is_enabled=each_policy['is_enabled'],
+                        name=each_policy['name'], owner=each_policy['owner'], taskSettings=each_policy['taskSettings'],
+                        type=each_policy['type'], id=each_policy['id'], category='')
+                    output_json.append(d.to_json())
+                else:
+                    logger.info('Unable to write policy to file: %s', err)
                 
         with open(json_file, 'w+') as jsonfile:
             jsonfile.write(json.dumps(output_json))
