@@ -1,6 +1,18 @@
+import logging
+import os
+
 # BigID Global settings
 BIGID_INSTANCE  = "https://<insert_your_big_instance>"
 API_URL: str = '/api/v1/'
+
+# Global Logging
+FORMAT = '%(asctime)s: %(message)s'
+logger = logging.getLogger('Bigidpy')
+logger.setLevel(logging.DEBUG)
+fh = logging.FileHandler(os.path.join(os.path.join(os.getcwd(), 'logs'), 'bigidpy.log'))
+fh.setFormatter(logging.Formatter(FORMAT))
+fh.setLevel(logging.INFO)
+logger.addHandler(fh)
 
 # Authentication
 REFRESH_URL: str = f'{API_URL}refresh-access-token'

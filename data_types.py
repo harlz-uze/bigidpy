@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-
+from dataclasses_json import dataclass_json
 
 @dataclass
 class BigData:
@@ -7,6 +7,7 @@ class BigData:
     status_code: int
     data: dict[str, str]
     
+@dataclass_json
 @dataclass
 class BigIdPolicy:
     ''' Base policy object 
@@ -23,8 +24,8 @@ class BigIdPolicy:
         taskSettings: {'includeLinkToInventory': False, 'includeObjectsReport': False}
         category: string of the category for example GDPR
     '''
+    id: str
     actions: list[str]
-    apps: list[str]
     complianceRuleCalc: dict[str, str]
     description: str
     is_enabled: bool
@@ -33,3 +34,5 @@ class BigIdPolicy:
     taskSettings: dict[str, str]
     type: str
     category: str
+    apps: list[str]
+    

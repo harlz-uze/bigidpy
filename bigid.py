@@ -5,6 +5,8 @@ import exceptions
 from data_types import BigData, BigIdPolicy
 import settings
 import json
+import urllib3
+urllib3.disable_warnings() 
 
 
 @dataclass
@@ -76,7 +78,7 @@ class BigID:
             print('No system token has be returned to the client from BigID, please')
             raise exceptions.UnexpectedResponse(status_code=r.status_code, message=r.text)
     
-    def make_request(self, api_path: str, http_method: str, bigid_policy: Optional[BigIdPolicy]=None) -> BigData:
+    def make_request(self, api_path: str, http_method: str, bigid_policy: Optional[BigIdPolicy]=None, bigid_policy_id: Optional[str]=None) -> BigData:
         ''' Make a request to BigID instance and return a data 
         
         Args:
@@ -98,7 +100,7 @@ class BigID:
         url: str = f'{self.host}{api_path}'
         if self.session_token is not None and http_method.lower() == 'get':
             try:
-                print('Attempting to connect to: {url}')
+                print(f'Attempting to connect to: {url}')
                 r = requests.get(url=url, headers=headers, verify=self.verify_ssl)
                 data: BigData = BigData(status_code=r.status_code, data=r.json())
                 return data
@@ -112,10 +114,26 @@ class BigID:
                 raise err
         elif self.session_token is not None and http_method.lower() == 'post':
             try:
-                print('Attempting to connect to: {url}')
+                print(f'Attempting to connect to: {url}')
                 r = requests.post(url=url, headers=headers, data=json.dumps(bigid_policy.__dict__), verify=self.verify_ssl)
                 post_data: BigData = BigData(status_code=r.status_code, data=r.json())
                 return post_data
+            except exceptions.ConnectionError as err:
+                print(f'Connection Error has occured: {err}')
+                raise exceptions.UnexpectedResponse(status_code=r.status_code, message=r.text)
+                
+            except KeyError as err:
+                print('No system token has be returned to the client from BigID, please \
+                    make sure you have a valid refresh token')
+                raise err
+        elif self.session_token is not None and http_method.lower() == 'delete':
+            try:
+                url = url + f'{bigid_policy_id}'
+                print(f'Attempting to connect to: {url}')
+                r = requests.delete(url=url, headers=headers, verify=self.verify_ssl)
+                delete_data: BigData = BigData(status_code=r.status_code, data=r.json())
+                print(f'status_code={delete_data.status_code}, message={delete_data.data}')
+                return delete_data
             except exceptions.ConnectionError as err:
                 print(f'Connection Error has occured: {err}')
                 raise exceptions.UnexpectedResponse(status_code=r.status_code, message=r.text)

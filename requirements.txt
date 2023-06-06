@@ -1,2 +1,4 @@
 pytest
 requests
+dataclasses
+dataclasses_json
