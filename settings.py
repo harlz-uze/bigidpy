@@ -24,3 +24,12 @@ GET_DATASOURCES: str = f'{API_URL}file-download/export'
 SUPPORTED_DATASOURCES: str = f'{API_URL}ds-connections-types'
 SCANNER_STATUS_ALL: str = f'{API_URL}scanner-status/'
 SCANNER_JOBS: str = f'{API_URL}scanner_jobs/'
+
+# Scan API
+SCAN_API: str = f'{API_URL}scan-api/analyze'
+
+# Connect App Global settings
+CONNECT_API: str = f'{BIGID_INSTANCE}:8000'
+
+# User administration
+USER_API: str = f'{API_URL}system-users'

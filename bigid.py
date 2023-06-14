@@ -78,7 +78,9 @@ class BigID:
             print('No system token has be returned to the client from BigID, please')
             raise exceptions.UnexpectedResponse(status_code=r.status_code, message=r.text)
     
-    def make_request(self, api_path: str, http_method: str, bigid_policy: Optional[BigIdPolicy]=None, bigid_policy_id: Optional[str]=None) -> BigData:
+    def make_request(self, api_path: str, http_method: str, bigid_policy: Optional[BigIdPolicy]=None,
+                     bigid_policy_id: Optional[str]=None,
+                     payload: Optional[dict[str, str]]=None) -> BigData:
         ''' Make a request to BigID instance and return a data 
         
         Args:
@@ -115,7 +117,8 @@ class BigID:
         elif self.session_token is not None and http_method.lower() == 'post':
             try:
                 print(f'Attempting to connect to: {url}')
-                r = requests.post(url=url, headers=headers, data=json.dumps(bigid_policy.__dict__), verify=self.verify_ssl)
+                r = requests.post(url=url, headers=headers, data=json.dumps(bigid_policy.__dict__),
+                                  verify=self.verify_ssl)
                 post_data: BigData = BigData(status_code=r.status_code, data=r.json())
                 return post_data
             except exceptions.ConnectionError as err:

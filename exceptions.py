@@ -43,3 +43,8 @@ class PolicyWriteError(Exception):
     def __init__(self, message=None):
         self.message = message
         super().__init__(f'Failed to write policy: {self.message}')  
+        
+class UserMethodError(Exception):
+    def __init__(self, message=None):
+        self.message = message
+        super().__init__(f'UserMethodError: {self.message}')       
