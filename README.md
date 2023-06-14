@@ -105,6 +105,7 @@ policy_engine.write_policy(bigid=bigId, bigid_policy=bigid_policy)
 ```
 
 ## Adding, Viewing or Modifying Users
+### Get all configured users from the system
 ```
 import bigid
 import user_engine
