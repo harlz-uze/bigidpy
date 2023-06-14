@@ -103,3 +103,20 @@ policy_engine.write_policy(bigid=bigId, bigid_policy=bigid_policy)
 
 
 ```
+
+## Adding, Viewing or Modifying Users
+```
+import bigid
+import user_engine
+
+# instantiate a bigid instance
+bigId = bigid.BigID(host='<mybigid.com>', port=443, refresh_token='<my refresh token>')
+
+# request and access token using your refresh token
+bigId.authenticate(user='<user name>', password='<password>')
+
+
+# Get all the users from the system
+users = user_engine.get_users(bigid=bigid)
+
+```
