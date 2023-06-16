@@ -1,3 +1,9 @@
+# BigID Python Library Exceptions
+
+__author__ = "Brenton Harley"
+__version__ = "1.0.0"
+__status__ = "Development"
+
 class InvalidPathError(Exception):
     def __init__(
         self, message="Invalid API path error, url incorrectly formatted or doesn't exist"

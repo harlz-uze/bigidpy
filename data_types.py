@@ -1,3 +1,8 @@
+# BigID Python Library Data types
+__author__ = "Brenton Harley"
+__version__ = "1.0.0"
+__status__ = "Development"
+
 from dataclasses import dataclass
 from dataclasses_json import dataclass_json
 from typing import Optional

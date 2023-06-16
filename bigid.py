@@ -1,3 +1,8 @@
+# BigID Python Library Base BigID class
+__author__ = "Brenton Harley"
+__version__ = "1.0.0"
+__status__ = "Development"
+
 from dataclasses import dataclass
 import requests
 from typing import Optional

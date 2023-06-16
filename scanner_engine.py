@@ -1,5 +1,10 @@
 # The scanner engine is designed to provide the easiet access to scanner
 # details and statistics programatically
+
+__author__ = "Brenton Harley"
+__version__ = "1.0.0"
+__status__ = "Development"
+
 import bigid
 from data_types import BigData
 import settings

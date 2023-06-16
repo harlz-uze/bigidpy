@@ -1,3 +1,9 @@
+# BigID Python Library Policy Engine used for taking actions on Policies
+
+__author__ = "Brenton Harley"
+__version__ = "1.0.0"
+__status__ = "Development"
+
 import bigid
 from datetime import datetime
 from data_types import BigData, BigIdPolicy

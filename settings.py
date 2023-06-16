@@ -1,3 +1,9 @@
+# BigID Python Settings for the BigID Python Library 
+
+__author__ = "Brenton Harley"
+__version__ = "1.0.0"
+__status__ = "Development"
+
 import logging
 import os
 

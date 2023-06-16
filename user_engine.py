@@ -1,4 +1,9 @@
-# User administration interface
+# BigID Python User methods for actions against BigID Users
+
+__author__ = "Brenton Harley"
+__version__ = "1.0.0"
+__status__ = "Development"
+
 
 import bigid
 import data_types

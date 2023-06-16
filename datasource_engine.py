@@ -1,3 +1,8 @@
+# BigID Python Library Data Source Engine used for actions on Data Sources
+__author__ = "Brenton Harley"
+__version__ = "1.0.0"
+__status__ = "Development"
+
 import bigid
 import requests
 from datetime import datetime
