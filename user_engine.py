@@ -23,11 +23,12 @@ def get_users(bigid: bigid.BigID) -> list[dict[str, str]]:
     else:
         raise UserMethodError(f'Status code: {data.status_code}')
 
-def add_user(bigid: bigid.BigID, payload: dict[str, str]) ->None:
+def add_user(bigid: bigid.BigID, user: data_types.User) ->None:
     ''' Add a user to BigID 
     
     Attributes:
         bigid: BigId instance used for requests
+        user: User instance
         
     Returns:
         None
@@ -36,5 +37,25 @@ def add_user(bigid: bigid.BigID, payload: dict[str, str]) ->None:
         UserMethodError: When the user is failed to be added with the server message
         returned
     '''
-    # data: data_types.BigData = bigid.make_request(api_path=settings.USER_API, http_method='post')
-    raise NotImplementedError
+    data: data_types.BigData = bigid.make_request(api_path=settings.USER_WRITE, http_method='post', user=user)
+    if data.status_code != 200:
+        raise UserMethodError(f'Unable to add new user: status_code={data.status_code}, message={data.data}')
+
+
+def modify_user(bigid: bigid.BigID, user: data_types.User) ->None:
+    ''' Modify an existing user in BigID 
+    
+    Attributes:
+        bigid: BigId instance used for requests
+        user: User instance
+        
+    Returns:
+        None
+    
+    Raises:
+        UserMethodError: When the user failed to be modified with the server message
+        returned
+    '''
+    data: data_types.BigData = bigid.make_request(api_path=settings.USER_WRITE, http_method='put', user=user)
+    if data.status_code != 200:
+        raise UserMethodError(f'Unable to modify user: status_code={data.status_code}, message={data.data}')

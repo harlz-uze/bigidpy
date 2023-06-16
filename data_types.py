@@ -1,6 +1,18 @@
 from dataclasses import dataclass
 from dataclasses_json import dataclass_json
+from typing import Optional
 
+@dataclass_json
+@dataclass
+class User:
+    ''' Base user class'''
+    name: str
+    firstName: str
+    lastName: str
+    password: str
+    roleIds: Optional[list[str]] = None
+    refreshTokens: Optional[list[str]] = None
+    
 @dataclass
 class BigData:
     ''' Base data class for BigID '''
@@ -23,8 +35,8 @@ class BigIdPolicy:
         apps: An empty list
         taskSettings: {'includeLinkToInventory': False, 'includeObjectsReport': False}
         category: string of the category for example GDPR
+        id: uid of the policy
     '''
-    id: str
     actions: list[str]
     complianceRuleCalc: dict[str, str]
     description: str
@@ -35,4 +47,5 @@ class BigIdPolicy:
     type: str
     category: str
     apps: list[str]
+    id: Optional[str] = None
     

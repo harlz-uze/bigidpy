@@ -16,7 +16,7 @@ def get_scanner_status_all(bigid: bigid.BigID) -> BigData:
     Raises:
         None 
     '''
-    data: BigData = bigid.make_request(api_path=settings.SCANNER_STATUS_ALL)
+    data: BigData = bigid.make_request(api_path=settings.SCANNER_STATUS_ALL, http_method='get')
     return data
 
 def get_scanner_by_id(bigid: bigid.BigID, scanner_id: int) -> BigData:
@@ -31,7 +31,7 @@ def get_scanner_by_id(bigid: bigid.BigID, scanner_id: int) -> BigData:
     Raises:
         None 
     '''
-    data: BigData = bigid.make_request(api_path=f'{settings.SCANNER_STATUS_ALL}%7B{scanner_id}%7')
+    data: BigData = bigid.make_request(api_path=f'{settings.SCANNER_STATUS_ALL}%7B{scanner_id}%7', http_method='get')
     return data
 
 def get_scanner_jobs(bigid: bigid.BigID) -> BigData:
@@ -46,6 +46,6 @@ def get_scanner_jobs(bigid: bigid.BigID) -> BigData:
     Raises:
         None 
     '''
-    data: BigData = bigid.make_request(api_path=f'{settings.SCANNER_JOBS}')
+    data: BigData = bigid.make_request(api_path=f'{settings.SCANNER_JOBS}', http_method='get')
     return data
     

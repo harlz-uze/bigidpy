@@ -31,7 +31,7 @@ def get_datasource(bigid: bigid.BigID) -> BigData:
         None
     
     '''
-    data: BigData = bigid.make_request(api_path=settings.DATASOUCES)
+    data: BigData = bigid.make_request(api_path=settings.DATASOUCES, http_method='get')
     return data
 
 def get_supported_datasources(bigid: bigid.BigID) -> BigData:
