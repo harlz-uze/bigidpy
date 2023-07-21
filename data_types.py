@@ -54,3 +54,48 @@ class BigIdPolicy:
     apps: list[str]
     id: Optional[str] = None
     
+@dataclass_json
+@dataclass
+class Classifier:
+    id: str
+    name: str
+    attributeRiskName: str
+    type: enumerate
+    totalFindings: int
+    originalData: list[dict[str, str]]
+    nerTitle: Optional[str] =None
+    Allowed: Optional[str] =None #doc┃ner┃meta┃data
+    # _id
+    # string
+    # classification_name
+    # string
+    # classifierType
+    # enum
+    # Allowed: columnName┃data
+    # type
+    # enum
+    # Allowed: NER┃DOC
+    # enabled
+    # boolean
+    # classification_regex
+    # string
+    # min_length
+    # string
+    # max_length
+    # string
+    # validation
+    # string
+    # description
+    # string
+    # nerEntityName
+    # string
+    # modelId
+    # string
+    # classifierName
+    # string
+    # modelName
+    # string
+    # modelNameInMl
+    # string
+    # originalNames *
+    # [string]
