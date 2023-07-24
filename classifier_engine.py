@@ -5,6 +5,7 @@ __status__ = "Development"
 
 import bigid
 from data_types import BigData, RegexClassifier, DocClassifier, NerClassifier
+from exceptions import ClassifierError
 
 def get_classifiers(bigid: bigid.BigID) -> dict[str, list[RegexClassifier, NerClassifier, DocClassifier]]:
     ''' Get classifiers from BigID and return them as a list'''
@@ -25,7 +26,26 @@ def get_classifiers(bigid: bigid.BigID) -> dict[str, list[RegexClassifier, NerCl
         print('Failed to parse classifier, supported types are DOC, NER & Regex see result["failures"] for more info')
     return res
 
-def add_classifier(bigid: bigid.BigID, classifier: RegexClassifier) -> None:
-    ''' Add a classifier to the BigID instance '''
-    data = bigid.make_request(api_path='/api/v1/classifications', http_method='GET')
-    pass
+def add_regex_classifier(bigid: bigid.BigID, classifier: RegexClassifier) -> bigid.BigData:
+    ''' Add a classifier to the BigID instance 
+    
+    Attributes:
+        bigid: An instance of BigID
+        classifier: An instance of the RegexClassifier
+        
+    Returns None
+    Raises: ClassiferError
+    
+    '''
+    data = bigid.make_request(api_path='/api/v1/classifications', http_method='POST')
+    if data.status_code != 200:
+        raise ClassifierError(message=f'Failed to save classifier: {data["error"]}')
+    return data
+
+def add_ner_classifier(bigid: bigid.BigID, classifier: NerClassifier) -> None:
+    ''' Add a NER classifier to BigID instance '''
+    raise NotImplementedError
+
+def add_doc_classifier(bigid: bigid.BigID, classifier: DocClassifier) -> None:
+    ''' Add a Document classifier to BigID instance '''
+    raise NotImplementedError
