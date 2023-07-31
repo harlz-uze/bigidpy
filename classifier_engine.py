@@ -6,6 +6,7 @@ __status__ = "Development"
 import bigid
 from data_types import BigData, RegexClassifier, DocClassifier, NerClassifier
 from exceptions import ClassifierError
+import urllib
 
 def get_classifiers(bigid: bigid.BigID) -> dict[str, list[RegexClassifier, NerClassifier, DocClassifier]]:
     ''' Get classifiers from BigID and return them as a list'''
@@ -37,9 +38,9 @@ def add_regex_classifier(bigid: bigid.BigID, classifier: RegexClassifier) -> big
     Raises: ClassiferError
     
     '''
-    data = bigid.make_request(api_path='/api/v1/classifications', http_method='POST')
+    data = bigid.make_request(api_path='/api/v1/classifications', http_method='POST', classifier=classifier)
     if data.status_code != 200:
-        raise ClassifierError(message=f'Failed to save classifier: {data["error"]}')
+        raise ClassifierError(message=f'Failed to save classifier: {data}')
     return data
 
 def add_ner_classifier(bigid: bigid.BigID, classifier: NerClassifier) -> None:
@@ -49,3 +50,20 @@ def add_ner_classifier(bigid: bigid.BigID, classifier: NerClassifier) -> None:
 def add_doc_classifier(bigid: bigid.BigID, classifier: DocClassifier) -> None:
     ''' Add a Document classifier to BigID instance '''
     raise NotImplementedError
+
+### Remove Classfiers ###
+def delete_classifier(bigid: bigid.BigID, classifier_name: str) -> BigData:
+    ''' Remove a classifer by its name if it exists
+    
+    Attributes:
+        bigid: Instance of BigID
+        
+        Returns: BigData object
+        
+        Raise: See BigID exceptions
+        
+    '''
+    data = bigid.make_request(api_path=f'/api/v1/classifications/{urllib.parse.quote(classifier_name)}', http_method='DELETE')
+    if data.status_code != 200:
+        raise ClassifierError(message=f'Failed to save classifier: {data}')
+    return data

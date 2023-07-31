@@ -68,10 +68,11 @@ class RegexClassifier:
     _id: str
     classification_name: str
     classification_regex: str
-    name: str
+    # name: Optional[str] = None
+    description: Optional[str]=''
     proximity_before: Optional[int] = None
     version: Optional[str] = None
-    updated_at: Optional[str] = None
+    # updated_at: Optional[str] = None
     support_term_value: Optional[str] = None
     enabled: Optional[bool] = None
     proximity_after: Optional[int] = None

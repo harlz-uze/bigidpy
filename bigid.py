@@ -7,10 +7,11 @@ from dataclasses import dataclass
 import requests
 from typing import Optional
 import exceptions
-from data_types import BigData, BigIdPolicy, User
+from data_types import BigData, BigIdPolicy, User, RegexClassifier
 import settings
 import json
 import urllib3
+import urllib
 urllib3.disable_warnings() 
 
 
@@ -85,7 +86,7 @@ class BigID:
     
     def make_request(self, api_path: str, http_method: str, bigid_policy: Optional[BigIdPolicy]=None,
                      bigid_policy_id: Optional[str]=None,
-                     user: Optional[User]=None) -> BigData:
+                     user: Optional[User]=None, classifier: Optional[RegexClassifier]=None) -> BigData:
         ''' Make a request to BigID instance and return a data 
         
         Args:
@@ -128,6 +129,9 @@ class BigID:
                 elif user is not None:
                     r = requests.post(url=url, headers=headers, data=json.dumps(user.__dict__),
                                     verify=self.verify_ssl)
+                elif classifier is not None:
+                    r = requests.post(url=url, headers=headers, data=json.dumps(classifier.__dict__),
+                                    verify=self.verify_ssl)
                 post_data: BigData = BigData(status_code=r.status_code, data=r.json())
                 return post_data
             except exceptions.ConnectionError as err:
@@ -142,7 +146,7 @@ class BigID:
             try:
                 # url = url + f'{bigid_policy_id}'
                 print(f'Attempting to connect to: {url}')
-                r = requests.delete(url=api_path, headers=headers, verify=self.verify_ssl)
+                r = requests.delete(url=url, headers=headers, verify=self.verify_ssl)
                 delete_data: BigData = BigData(status_code=r.status_code, data=r.json())
                 print(f'status_code={delete_data.status_code}, message={delete_data.data}')
                 return delete_data
