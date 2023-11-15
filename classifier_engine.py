@@ -65,5 +65,5 @@ def delete_classifier(bigid: bigid.BigID, classifier_name: str) -> BigData:
     '''
     data = bigid.make_request(api_path=f'/api/v1/classifications/{urllib.parse.quote(classifier_name)}', http_method='DELETE')
     if data.status_code != 200:
-        raise ClassifierError(message=f'Failed to save classifier: {data}')
+        raise ClassifierError(message=f'Failed to remove classifier: {data}')
     return data

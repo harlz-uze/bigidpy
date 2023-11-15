@@ -8,6 +8,7 @@ import requests
 from datetime import datetime
 from data_types import BigData
 import settings
+from typing import Optional
 
 def add_datasource(bigid: bigid.BigID, ) -> BigData:
     ''' Add a data source to your BigID instance
@@ -23,7 +24,7 @@ def add_datasource(bigid: bigid.BigID, ) -> BigData:
     '''
     raise NotImplementedError
 
-def get_datasource(bigid: bigid.BigID) -> BigData:
+def get_datasource(bigid: bigid.BigID, datasource_name: Optional[str]=None) -> BigData:
     ''' Get a list of data sources
     
     Attributes:
@@ -36,6 +37,9 @@ def get_datasource(bigid: bigid.BigID) -> BigData:
         None
     
     '''
+    if datasource_name !=None:
+        return bigid.make_request(api_path=settings.DATASOUCES, http_method='get',
+                                  datasource=datasource_name)
     data: BigData = bigid.make_request(api_path=settings.DATASOUCES, http_method='get')
     return data
 

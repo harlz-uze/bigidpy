@@ -35,7 +35,7 @@ class BigID:
             ConnectionError: If no connection is found or anything other than
             a http_status code of 200 is observed'''
         headers: dict[str, str] = {'Content-Type': 'application/json', 'Authorization': self.refresh_token}
-        url: str = f'{self.host}{self.refresh_url}'
+        url: str = f'{self.host}:{self.port}{self.refresh_url}'
         try:
             r = requests.get(url=url, headers=headers, verify=self.verify_ssl)
             if r.status_code == 200:
@@ -45,7 +45,7 @@ class BigID:
                 raise exceptions.UnexpectedResponse(status_code=r.status_code, message=f'{r.text}, url={url}')
         except requests.ConnectionError as err:
             print(f'Connection Error has occured: {err}')
-            raise exceptions.UnexpectedResponse(status_code=r.status_code, message=r.text)
+            raise exceptions.UnexpectedResponse(status_code=500, message=f"Connection error occured: {err}")
 
         except KeyError as err:
             print('No system token has be returned to the client from BigID, please \
@@ -69,7 +69,7 @@ class BigID:
         '''
         headers: dict[str, str] = {'Content-Type': 'application/json'}
         payload: dict[str, str] = json.dumps({'username': user, 'password': password})
-        url: str = f'{self.host}{self.user_url}'
+        url: str = f'{self.host}{self.port}{self.user_url}'
         try:
             r = requests.post(url=url, headers=headers, data=payload, verify=self.verify_ssl)
             if r.status_code == 200:
@@ -79,14 +79,15 @@ class BigID:
                 raise exceptions.ConnectionError(status_code=r.status_code, message=f'{r.text}, host={url}')
         except requests.ConnectionError as err:
             print(f'Connection Error has occured: {err}')
-            raise exceptions.UnexpectedResponse(status_code=r.status_code, message=r.text)
+            raise exceptions.UnexpectedResponse(status_code=500, message=r.text)
         except KeyError as err:
             print('No system token has be returned to the client from BigID, please')
-            raise exceptions.UnexpectedResponse(status_code=r.status_code, message=r.text)
+            raise exceptions.UnexpectedResponse(status_code=500, message=r.text)
     
     def make_request(self, api_path: str, http_method: str, bigid_policy: Optional[BigIdPolicy]=None,
                      bigid_policy_id: Optional[str]=None,
-                     user: Optional[User]=None, classifier: Optional[RegexClassifier]=None) -> BigData:
+                     user: Optional[User]=None, classifier: Optional[RegexClassifier]=None,
+                     datasource: Optional[str]=None) -> BigData:
         ''' Make a request to BigID instance and return a data 
         
         Args:
@@ -105,7 +106,7 @@ class BigID:
         '''
         headers: dict[str, str] = {'Content-Type': 'application/json',
                                    'Authorization': self.session_token}
-        url: str = f'{self.host}{api_path}'
+        url: str = f'{self.host}:{self.port}{api_path}'
         if self.session_token is not None and http_method.lower() == 'get':
             try:
                 print(f'Attempting to connect to: {url}')
@@ -114,7 +115,7 @@ class BigID:
                 return data
             except exceptions.ConnectionError as err:
                 print(f'Connection Error has occured: {err}')
-                raise exceptions.UnexpectedResponse(status_code=r.status_code, message=r.text)
+                raise exceptions.UnexpectedResponse(status_code=500, message=r.text)
                 
             except KeyError as err:
                 print('No system token has be returned to the client from BigID, please \
@@ -136,7 +137,7 @@ class BigID:
                 return post_data
             except exceptions.ConnectionError as err:
                 print(f'Connection Error has occured: {err}')
-                raise exceptions.UnexpectedResponse(status_code=r.status_code, message=r.text)
+                raise exceptions.UnexpectedResponse(status_code=500, message=r.text)
                 
             except KeyError as err:
                 print('No system token has be returned to the client from BigID, please \
