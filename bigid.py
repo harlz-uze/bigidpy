@@ -7,7 +7,7 @@ from dataclasses import dataclass
 import requests
 from typing import Optional
 import exceptions
-from data_types import BigData, BigIdPolicy, User, RegexClassifier
+from data_types import BigData, BigIdPolicy, User, RegexClassifier, Role
 import settings
 import json
 import urllib3
@@ -87,7 +87,7 @@ class BigID:
     def make_request(self, api_path: str, http_method: str, bigid_policy: Optional[BigIdPolicy]=None,
                      bigid_policy_id: Optional[str]=None,
                      user: Optional[User]=None, classifier: Optional[RegexClassifier]=None,
-                     datasource: Optional[str]=None) -> BigData:
+                     datasource: Optional[str]=None, role: Optional[Role]=None) -> BigData:
         ''' Make a request to BigID instance and return a data 
         
         Args:
@@ -132,6 +132,9 @@ class BigID:
                                     verify=self.verify_ssl)
                 elif classifier is not None:
                     r = requests.post(url=url, headers=headers, data=json.dumps(classifier.__dict__),
+                                    verify=self.verify_ssl)
+                elif role is not None:
+                    r = requests.post(url=url, headers=headers, data=json.dumps(role.__dict__),
                                     verify=self.verify_ssl)
                 post_data: BigData = BigData(status_code=r.status_code, data=r.json())
                 return post_data

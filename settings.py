@@ -40,3 +40,4 @@ CONNECT_API: str = f'{BIGID_INSTANCE}:8000'
 # User administration
 USER_API: str = f'{API_URL}system-users'
 USER_WRITE: str = f'{API_URL}system_users'
+ROLE_API: str = f'{API_URL}roles'
