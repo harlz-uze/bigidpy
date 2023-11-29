@@ -11,10 +11,19 @@ from typing import Optional
 @dataclass
 class User:
     ''' Base user class'''
+    _id: str
+    id: Optional[str]
     name: str
+    email: str
+    isPasswordChangeNeeded: str
+    origin: Optional[str]
+    last_successful_login_at: Optional[str]
+    updated_at: Optional[str]
+    token: Optional[str]
     firstName: str
     lastName: str
     password: str
+    created_at: Optional[str]
     roleIds: Optional[list[str]] = None
     refreshTokens: Optional[list[str]] = None
     

@@ -42,7 +42,8 @@ def add_user(bigid: bigid.BigID, user: data_types.User) ->None:
         UserMethodError: When the user is failed to be added with the server message
         returned
     '''
-    data: data_types.BigData = bigid.make_request(api_path=settings.USER_WRITE, http_method='post', user=user)
+    # print(f'{settings.USER_WRITE}/{user.email}')
+    data: data_types.BigData = bigid.make_request(api_path=f'{settings.USER_WRITE}/{user.email}', http_method='post', user=user)
     if data.status_code != 200:
         raise UserMethodError(f'Unable to add new user: status_code={data.status_code}, message={data.data}')
 
@@ -61,7 +62,7 @@ def modify_user(bigid: bigid.BigID, user: data_types.User) ->None:
         UserMethodError: When the user failed to be modified with the server message
         returned
     '''
-    data: data_types.BigData = bigid.make_request(api_path=settings.USER_WRITE, http_method='put', user=user)
+    data: data_types.BigData = bigid.make_request(api_path=f'{settings.USER_WRITE}/{user.id}', http_method='put', user=user)
     if data.status_code != 200:
         raise UserMethodError(f'Unable to modify user: status_code={data.status_code}, message={data.data}')
     

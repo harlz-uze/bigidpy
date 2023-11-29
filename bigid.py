@@ -164,9 +164,9 @@ class BigID:
                 raise err
         elif self.session_token is not None and http_method.lower() == 'put':
             try:
-                print(f'Attempting to connect to: {url}')
-                url = url + api_path
-                r = requests.put(url=api_path, headers=headers, verify=self.verify_ssl)
+                print(f'Attempting to connect to: {url}, method: put')
+                # url = url + api_path
+                r = requests.put(url=url, headers=headers, verify=self.verify_ssl, data=json.dumps(user.__dict__))
                 put_data: BigData = BigData(status_code=r.status_code, data=r.json())
                 print(f'status_code={put_data.status_code}, message={put_data.data}')
                 return put_data
