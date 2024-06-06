@@ -59,3 +59,8 @@ class ClassifierError(Exception):
     def __init__(self, message=None):
         self.message = message
         super().__init__(f'Unknown classifier retrieved: {self.message}')   
+        
+class CatalogException(Exception):
+    def __init__(self, message=None):
+        self.message = message
+        super().__init__(f'CatalogError: {self.message}')   

@@ -109,7 +109,7 @@ class BigID:
         url: str = f'{self.host}:{self.port}{api_path}'
         if self.session_token is not None and http_method.lower() == 'get':
             try:
-                print(f'Attempting to connect to: {url}')
+                print(f'Attempting to connect to: {url}, method={http_method}')
                 r = requests.get(url=url, headers=headers, verify=self.verify_ssl)
                 data: BigData = BigData(status_code=r.status_code, data=r.json())
                 return data
@@ -123,7 +123,7 @@ class BigID:
                 raise err
         elif self.session_token is not None and http_method.lower() == 'post':
             try:
-                print(f'Attempting to connect to: {url}')
+                print(f'Attempting to connect to: {url}, method={http_method}')
                 if bigid_policy is not None:
                     r = requests.post(url=url, headers=headers, data=json.dumps(bigid_policy.__dict__),
                                     verify=self.verify_ssl)
@@ -136,11 +136,14 @@ class BigID:
                 elif role is not None:
                     r = requests.post(url=url, headers=headers, data=json.dumps(role.__dict__),
                                     verify=self.verify_ssl)
+                else:
+                    r = requests.post(url=url, headers=headers,
+                                    verify=self.verify_ssl)
                 post_data: BigData = BigData(status_code=r.status_code, data=r.json())
                 return post_data
             except exceptions.ConnectionError as err:
                 print(f'Connection Error has occured: {err}')
-                raise exceptions.UnexpectedResponse(status_code=500, message=r.text)
+                raise exceptions.UnexpectedResponse(status_code=500, message=err)
                 
             except KeyError as err:
                 print('No system token has be returned to the client from BigID, please \
